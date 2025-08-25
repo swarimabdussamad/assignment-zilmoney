@@ -437,6 +437,7 @@ def ask_question(payload: AskRequest):
 @app.delete("/documents")
 def clear_documents():
     """Clear all documents from the database"""
+    global collection
     try:
         # Get collection count first
         count = collection.count()
@@ -448,7 +449,7 @@ def clear_documents():
         client.delete_collection(COLLECTION_NAME)
         
         # Recreate the collection
-        global collection
+        
         collection = client.get_or_create_collection(
             name=COLLECTION_NAME,
             metadata={"hnsw:space": "cosine"},
